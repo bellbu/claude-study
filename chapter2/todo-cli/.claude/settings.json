@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run pytest:*)",
+      "PowerShell(uv run pytest:*)",
+      "Bash(git status:*)",
+      "PowerShell(git status:*)",
+      "Bash(git diff:*)",
+      "PowerShell(git diff:*)",
+      "Bash(git log:*)",
+      "PowerShell(git log:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -qE \"\\\"file_path\\\": *\\\"[^\\\"]*\\.py\\\"\" || exit 0; cd \"$CLAUDE_PROJECT_DIR\" && out=$(uv run pytest -q 2>&1) || { echo \"pytest 실패:\" >&2; echo \"$out\" >&2; exit 2; }",
+            "shell": "bash",
+            "timeout": 120,
+            "statusMessage": "uv run pytest 실행 중..."
+          }
+        ]
+      }
+    ]
+  }
+}
