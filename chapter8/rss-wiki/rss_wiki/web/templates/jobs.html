@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}작업 · RSS Wiki{% endblock %}
+{% block head %}{% if running.collect or running.wiki %}<meta http-equiv="refresh" content="3; url=/jobs">{% endif %}{% endblock %}
+{% block content %}
+<h1>작업</h1>
+{% if running.collect or running.wiki %}
+<div hx-get="/jobs" hx-trigger="every 3s" hx-select="main" hx-target="main" hx-swap="outerHTML" class="muted">작업이 끝나면 이 화면이 자동으로 갱신됩니다.</div>
+{% endif %}
+<form class="inline" method="post" action="/jobs/collect"><button class="primary" {% if running.collect %}disabled{% endif %}>{{ '수집 중…' if running.collect else '지금 수집' }}</button></form>
+<form class="inline" method="post" action="/jobs/wiki"><button class="primary" {% if running.wiki %}disabled{% endif %}>{{ '위키 갱신 중…' if running.wiki else '지금 위키 갱신' }}</button></form>
+
+<h2>LLM 사용량</h2>
+<p>오늘 ${{ '%.4f' | format(spent) }} / 상한 ${{ '%.2f' | format(budget) }} · 최근 7일 ${{ '%.4f' | format(week_cost) }}</p>
+<div class="table-wrap">
+<table>
+<tr><th>모델</th><th>용도</th><th>호출</th><th>입력 토큰</th><th>출력 토큰</th><th>비용</th></tr>
+{% for u in usage %}
+<tr><td>{{ u.model }}</td><td>{{ u.purpose }}</td><td>{{ u.calls }}</td><td>{{ u.input_tokens }}</td><td>{{ u.output_tokens }}</td><td>${{ '%.4f' | format(u.cost_usd) }}</td></tr>
+{% else %}
+<tr><td colspan="6" class="muted">오늘 LLM 호출이 없습니다.</td></tr>
+{% endfor %}
+</table>
+</div>
+
+<h2>최근 실행</h2>
+<div class="table-wrap">
+<table>
+<tr><th>시작</th><th>종류</th><th>상태</th><th>소요</th><th>결과</th></tr>
+{% for r in runs %}
+<tr>
+  <td class="muted">{{ r.started_at | localtime }}</td>
+  <td>{{ '수집' if r.job_type == 'collect' else '위키' }}</td>
+  <td class="{{ 'bad' if r.status in ('error', 'budget_exceeded') else '' }}">{{ {'ok':'성공','error':'오류','running':'실행 중','budget_exceeded':'비용 상한'}.get(r.status, r.status) }}</td>
+  <td class="muted">{{ duration(r.started_at, r.finished_at) }}</td>
+  <td class="muted"><code style="white-space:pre-wrap">{{ r.stats }}</code></td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="muted">실행 기록이 없습니다.</td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

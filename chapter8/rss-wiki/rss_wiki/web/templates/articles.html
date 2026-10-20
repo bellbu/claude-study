@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}글 · RSS Wiki{% endblock %}
+{% block content %}
+<h1>글</h1>
+<form class="inline" method="get" action="/articles">
+  <select name="status" aria-label="상태">
+    <option value="">전체 상태</option>
+    {% for s in statuses %}<option value="{{ s }}" {% if s == status %}selected{% endif %}>{{ {'pending':'대기','done':'처리완료','skipped':'건너뜀','failed':'실패','duplicate':'중복'}[s] }} ({{ counts.get(s, 0) }})</option>{% endfor %}
+  </select>
+  <select name="feed_id" aria-label="피드">
+    <option value="">전체 피드</option>
+    {% for f in feeds %}<option value="{{ f.id }}" {% if f.id == feed_id %}selected{% endif %}>{{ f.title or f.url }}</option>{% endfor %}
+  </select>
+  <select name="topic_id" aria-label="주제">
+    <option value="">전체 주제</option>
+    {% for t in topics %}<option value="{{ t.id }}" {% if t.id == topic_id %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
+  </select>
+  <button>필터</button>
+</form>
+<div class="table-wrap">
+<table>
+<tr><th>제목</th><th>피드</th><th>주제</th><th>상태</th><th>날짜</th></tr>
+{% for r in rows %}
+<tr>
+  <td><a href="/articles/{{ r.id }}">{{ r.title or '(제목 없음)' }}</a>{% if r.importance %} <span class="tag">중요도 {{ r.importance }}</span>{% endif %}</td>
+  <td class="muted">{{ r.feed_title or r.feed_url }}</td>
+  <td class="muted">{{ r.topic_names or '' }}</td>
+  <td>{{ {'pending':'대기','done':'처리완료','skipped':'건너뜀','failed':'실패','duplicate':'중복'}[r.status] }}</td>
+  <td class="muted">{{ (r.published_at or r.collected_at) | localtime('%Y-%m-%d') }}</td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="muted">글이 없습니다.</td></tr>
+{% endfor %}
+</table>
+</div>
+<p>
+{% if page_no > 1 %}<a href="?status={{ status or '' }}&feed_id={{ feed_id or '' }}&topic_id={{ topic_id or '' }}&page_no={{ page_no - 1 }}">← 이전</a>{% endif %}
+{% if has_next %}<a href="?status={{ status or '' }}&feed_id={{ feed_id or '' }}&topic_id={{ topic_id or '' }}&page_no={{ page_no + 1 }}">다음 →</a>{% endif %}
+</p>
+{% endblock %}

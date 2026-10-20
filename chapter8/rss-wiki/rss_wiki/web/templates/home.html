@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>오늘 갱신된 주제</h1>
+<p class="muted">
+  {% if last_wiki %}마지막 위키 갱신: {{ last_wiki.started_at | localtime }}{% else %}아직 위키 갱신이 실행되지 않았습니다.{% endif %}
+  · 처리 대기 글 {{ pending }}개
+</p>
+{% if not top %}
+  <div class="card">오늘 갱신된 주제가 없습니다. <a href="/feeds">피드를 추가</a>하거나 <a href="/jobs">작업</a>에서 수집·위키 갱신을 실행하세요.</div>
+{% endif %}
+<div class="cards">
+{% for c in top %}
+  <div class="card">
+    <h3><a href="/topics/{{ c.id }}">{{ c.name }}</a></h3>
+    <div class="muted">새 글 {{ c.new_count }}개 · {{ c.updated_at | localtime }}</div>
+    {{ c.changes | safe }}
+  </div>
+{% endfor %}
+</div>
+{% if more %}
+<h2>그 밖에 갱신된 주제</h2>
+<ul>{% for c in more %}<li><a href="/topics/{{ c.id }}">{{ c.name }}</a> <span class="muted">새 글 {{ c.new_count }}개</span></li>{% endfor %}</ul>
+{% endif %}
+{% if failing %}
+<h2>수집 실패 중인 피드</h2>
+<ul>{% for f in failing %}<li><a href="/feeds#feed-{{ f.id }}">{{ f.title or f.url }}</a> <span class="bad">연속 {{ f.consecutive_failures }}회 실패</span></li>{% endfor %}</ul>
+{% endif %}
+{% endblock %}

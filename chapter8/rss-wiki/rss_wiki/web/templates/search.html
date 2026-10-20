@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}검색 · RSS Wiki{% endblock %}
+{% block content %}
+<h1>검색</h1>
+<form class="inline" method="get" action="/search">
+  <input name="q" value="{{ q }}" placeholder="검색어" size="30" aria-label="검색어" autofocus>
+  <select name="feed_id" aria-label="피드">
+    <option value="">전체 피드</option>
+    {% for f in feeds %}<option value="{{ f.id }}" {% if f.id == feed_id %}selected{% endif %}>{{ f.title or f.url }}</option>{% endfor %}
+  </select>
+  <select name="topic_id" aria-label="주제">
+    <option value="">전체 주제</option>
+    {% for t in topics %}<option value="{{ t.id }}" {% if t.id == topic_id %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
+  </select>
+  <input type="date" name="since" value="{{ since }}" aria-label="시작일">
+  <input type="date" name="until" value="{{ until }}" aria-label="종료일">
+  <button class="primary">검색</button>
+</form>
+{% if q %}
+<h2>위키 페이지 ({{ results.wiki | length }})</h2>
+{% for w in results.wiki %}
+  <div class="card" style="margin-bottom:8px"><a href="/topics/{{ w.topic_id }}">{{ w.name }}</a><div class="muted">{{ w.snippet | safe }}</div></div>
+{% else %}<p class="muted">일치하는 위키 페이지가 없습니다.</p>{% endfor %}
+<h2>글 ({{ results.articles | length }})</h2>
+{% for a in results.articles %}
+  <div class="card" style="margin-bottom:8px">
+    <a href="/articles/{{ a.id }}">{{ a.title }}</a> <span class="muted">{{ a.feed_title }} · {{ a.date }}</span>
+    <div class="muted">{{ a.snippet | safe }}</div>
+  </div>
+{% else %}<p class="muted">일치하는 글이 없습니다.</p>{% endfor %}
+{% endif %}
+{% endblock %}

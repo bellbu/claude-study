@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.name }} 리비전 · RSS Wiki{% endblock %}
+{% block content %}
+<h1><a href="/topics/{{ topic.id }}">{{ topic.name }}</a> · 리비전 {{ rev.id }}</h1>
+<p class="muted">{{ rev.created_at | localtime }} · {{ rev.model or '-' }}{% if rev.is_current %} · 현재 버전{% endif %}</p>
+{% if not rev.is_current %}
+<form method="post" action="/topics/{{ topic.id }}/revisions/{{ rev.id }}/restore"><button class="primary">이 버전으로 되돌리기</button></form>
+{% endif %}
+<h2>직전 버전과의 차이</h2>
+<pre class="diff">{% for line in diff_lines %}<span class="{{ 'add' if line.startswith('+') else ('del' if line.startswith('-') else '') }}">{{ line }}</span>
+{% endfor %}</pre>
+<h2>내용</h2>
+<article class="wiki">{{ html | safe }}</article>
+{% endblock %}

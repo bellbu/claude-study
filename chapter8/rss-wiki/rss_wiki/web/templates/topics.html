@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}주제 · RSS Wiki{% endblock %}
+{% block content %}
+<h1>주제</h1>
+<div class="table-wrap">
+<table>
+<tr><th>주제</th><th>상태</th><th>글</th><th>페이지 갱신</th><th>관리</th></tr>
+{% for t in topics %}
+<tr>
+  <td><a href="/topics/{{ t.id }}">{{ t.name }}</a>{% if t.user_locked %} <span class="tag">고정</span>{% endif %}<div class="muted">{{ t.description }}</div></td>
+  <td>{{ {'active':'활성','archived':'보관','hidden':'숨김'}[t.status] }}</td>
+  <td>{{ t.article_count }}</td>
+  <td class="muted">{{ t.page_updated | localtime }}</td>
+  <td>
+    <form class="inline" method="post" action="/topics/{{ t.id }}/rename"><input name="name" value="{{ t.name }}" size="10" aria-label="새 이름"><button>이름 변경</button></form>
+    <form class="inline" method="post" action="/topics/{{ t.id }}/merge">
+      <select name="target_id" aria-label="병합 대상">{% for o in topics if o.id != t.id %}<option value="{{ o.id }}">{{ o.name }}</option>{% endfor %}</select><button>병합</button>
+    </form>
+    <form class="inline" method="post" action="/topics/{{ t.id }}/status">
+      {% if t.status == 'active' %}<input type="hidden" name="status" value="hidden"><button>숨김</button>
+      {% else %}<input type="hidden" name="status" value="active"><button>활성화</button>{% endif %}
+    </form>
+  </td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="muted">아직 주제가 없습니다.</td></tr>
+{% endfor %}
+</table>
+</div>
+
+<h2>변경 기록</h2>
+<div class="table-wrap">
+<table>
+<tr><th>시각</th><th>종류</th><th>주제</th><th>내용</th><th>주체</th><th></th></tr>
+{% for c in changes %}
+<tr>
+  <td class="muted">{{ c.created_at | localtime }}</td>
+  <td>{{ {'merge':'병합','rename':'이름 변경','archive':'보관','hide':'숨김','unarchive':'활성화'}[c.type] }}</td>
+  <td>{{ c.topic_name or c.topic_id }}</td>
+  <td class="muted">{% if c.type == 'merge' %}{{ (c.before | fromjson).name }} → #{{ (c.after | fromjson).target_id }}{% else %}{{ c.before | fromjson }} → {{ c.after | fromjson }}{% endif %}</td>
+  <td>{{ '자동' if c.source == 'auto' else '사용자' }}</td>
+  <td>{% if c.reverted %}<span class="muted">되돌림</span>{% else %}<form class="inline" method="post" action="/topics/changes/{{ c.id }}/revert"><button>되돌리기</button></form>{% endif %}</td>
+</tr>
+{% else %}
+<tr><td colspan="6" class="muted">변경 기록이 없습니다.</td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

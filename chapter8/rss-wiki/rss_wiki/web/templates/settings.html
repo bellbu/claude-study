@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}설정 · RSS Wiki{% endblock %}
+{% block content %}
+<h1>설정</h1>
+<form method="post" action="/settings">
+<table>
+{% for key, rule in rules.items() %}
+<tr>
+  <th><label for="{{ key }}">{{ rule[0] }}</label></th>
+  <td><input id="{{ key }}" name="{{ key }}" value="{{ values[key] }}" inputmode="decimal" size="8"> <span class="muted">{{ rule[1] }}~{{ rule[2] }}</span></td>
+</tr>
+{% endfor %}
+</table>
+<p><button class="primary">저장</button></p>
+</form>
+<h2>환경</h2>
+<ul style="overflow-wrap:anywhere">
+  <li>ANTHROPIC_API_KEY: {% if api_key_set %}설정됨{% else %}<span class="bad">설정되지 않음 — .env 파일에 추가하세요</span>{% endif %}</li>
+  <li>요약·분류 모델: {{ config.summary_model }} · 위키 재작성 모델: {{ config.wiki_model }}</li>
+  <li>데이터 파일: {{ config.db_path }}</li>
+</ul>
+{% endblock %}

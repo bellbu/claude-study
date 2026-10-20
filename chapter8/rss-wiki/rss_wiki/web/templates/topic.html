@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.name }} · RSS Wiki{% endblock %}
+{% block content %}
+<h1>{{ topic.name }}</h1>
+<p class="muted">{{ topic.description }} · 글 {{ article_count }}개 · <a href="/articles?topic_id={{ topic.id }}">글 목록</a>
+{% if rev %} · 갱신 {{ rev.created_at | localtime }}{% endif %}</p>
+{% if html %}
+<article class="wiki" id="wiki">{{ html | safe }}</article>
+{% else %}
+<div class="card">아직 위키 페이지가 없습니다. 다음 위키 갱신 때 만들어집니다.</div>
+{% endif %}
+<h2>리비전</h2>
+<div class="table-wrap">
+<table>
+<tr><th>시각</th><th>새로 반영한 글</th><th>모델</th><th></th></tr>
+{% for r in revisions %}
+<tr>
+  <td><a href="/topics/{{ topic.id }}/revisions/{{ r.id }}">{{ r.created_at | localtime }}</a>{% if r.is_current %} <span class="tag">현재</span>{% endif %}</td>
+  <td>{{ (r.new_article_ids | fromjson) | length }}개</td>
+  <td class="muted">{{ r.model or '-' }}</td>
+  <td>{% if not r.is_current %}<form class="inline" method="post" action="/topics/{{ topic.id }}/revisions/{{ r.id }}/restore"><button>이 버전으로 되돌리기</button></form>{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+<script>
+// 각주 링크에 마우스를 올리면 출처를 미리 보여준다
+document.querySelectorAll('#wiki sup a[href^="#fn"]').forEach(function (a) {
+  var li = document.getElementById(a.getAttribute('href').slice(1));
+  if (!li) return;
+  // 한 출처를 여러 번 인용하면 되돌아가기 링크(↩)가 여러 개 붙으므로 모두 빼고 읽는다
+  var copy = li.cloneNode(true);
+  copy.querySelectorAll('.footnote-backref').forEach(function (b) { b.remove(); });
+  a.title = copy.textContent.trim();
+});
+</script>
+{% endblock %}

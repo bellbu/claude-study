@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} · RSS Wiki{% endblock %}
+{% block content %}
+<h1>{{ a.title or '(제목 없음)' }}</h1>
+<p class="muted">
+  {{ a.feed_title or a.feed_url }} · {{ (a.published_at or a.collected_at) | localtime }}
+  {% if a.url %} · <a href="{{ a.url | safe_url }}" target="_blank" rel="noopener noreferrer">원문 열기</a>{% endif %}
+  · 본문: {{ {'extracted':'원문 추출','rss_fallback':'RSS 내용'}.get(a.content_source, '없음') }}
+</p>
+<p>상태: {{ {'pending':'대기','done':'처리완료','skipped':'건너뜀','failed':'실패','duplicate':'중복'}[a.status] }}
+  {% if a.importance %} · 중요도 {{ a.importance }}{% endif %}
+  {% if a.status == 'failed' %}
+  <form class="inline" method="post" action="/articles/{{ a.id }}/retry"><button>다시 처리</button></form>
+  {% endif %}
+</p>
+{% if original %}<p>같은 소식의 대표 글: <a href="/articles/{{ original.id }}">{{ original.title }}</a></p>{% endif %}
+{% if topics %}<p>주제: {% for t in topics %}<a href="/topics/{{ t.id }}">{{ t.name }}</a>{% if t.is_primary %} <span class="tag">대표</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+{% if a.summary %}
+<h2>요약</h2>
+<div class="card"><p>{{ a.summary }}</p>
+{% if key_points %}<ul>{% for k in key_points %}<li>{{ k }}</li>{% endfor %}</ul>{% endif %}
+</div>
+{% endif %}
+{% if dups %}
+<h2>같은 소식을 실은 다른 피드</h2>
+<ul>{% for d in dups %}<li><a href="/articles/{{ d.id }}">{{ d.feed_title }}</a> — <a href="{{ d.url | safe_url }}" target="_blank" rel="noopener noreferrer">원문</a></li>{% endfor %}</ul>
+{% endif %}
+{% if a.content %}
+<h2>본문</h2>
+<div class="card" style="white-space:pre-wrap">{{ a.content[:5000] }}{% if a.content | length > 5000 %}…{% endif %}</div>
+{% endif %}
+{% endblock %}
