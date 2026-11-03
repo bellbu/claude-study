@@ -1,0 +1,15 @@
+HALT 사유 (planner, 2026-11-03)
+
+TASKS.md의 T17에 `BLOCKED(3회째)` 기록이 있습니다.
+T17의 남은 acceptance는 스크린샷(`docs/screens/home-{light,dark}.png`, `docs/screens/feeds-{light,dark}.png`)뿐입니다.
+Generator와 Evaluator 세션 모두 Playwright MCP 도구 권한이 거부되어 3회 연속 찍지 못했습니다.
+PRD 5장에 "화면을 바꿀 때마다 스크린샷으로 확인"이 요구로 들어 있어, Planner가 이 acceptance를 뺄 수 없습니다.
+
+사람이 할 일 (둘 중 하나):
+1. 에이전트 세션에서 다음 도구를 허용합니다:
+   `mcp__playwright__browser_navigate`, `mcp__playwright__browser_emulate_media`, `mcp__playwright__browser_take_screenshot`
+   (예: .claude/settings.json의 permissions.allow에 추가)
+2. 또는 다른 캡처 수단을 승인하거나, 스크린샷 요구를 PRD에서 조정합니다.
+
+해결한 뒤 이 파일을 삭제하면 다음 사이클이 이어집니다.
+다음 작업은 TASKS.md의 T17 스크린샷 재시도와 T18b(T18a REVIEW 메모 2~4)입니다.

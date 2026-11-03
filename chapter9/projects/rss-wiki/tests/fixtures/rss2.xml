@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>한국어 테크 블로그</title>
+    <link>https://example.com/</link>
+    <description>테스트 피드</description>
+    <item>
+      <title>첫 번째 글: 파이썬 3.14 소개</title>
+      <link>https://example.com/posts/1</link>
+      <guid isPermaLink="false">post-1</guid>
+      <pubDate>Wed, 29 Oct 2025 09:30:00 +0900</pubDate>
+      <description>&lt;p&gt;파이썬 3.14의 새 기능을 소개합니다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>두 번째 글: guid 없음</title>
+      <link>https://example.com/posts/2</link>
+      <pubDate>Tue, 28 Oct 2025 00:00:00 GMT</pubDate>
+      <description>guid가 없는 항목입니다.</description>
+    </item>
+    <item>
+      <title>세 번째 글: 링크도 guid도 없음</title>
+      <description>건너뛰어야 합니다.</description>
+    </item>
+    <item>
+      <title>네 번째 글: 날짜 없음</title>
+      <link>https://example.com/posts/4</link>
+      <guid isPermaLink="false">post-4</guid>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,10 @@
+# rss-wiki 설정 (API 키는 환경 변수 ANTHROPIC_API_KEY로만 지정)
+model = "claude-haiku-5-5"
+min_content_chars = 500
+max_input_chars = 20000
+http_timeout = 15
+max_retries = 3
+max_failures = 5
+# data_dir = "."
+# db_path = "data/rss-wiki.db"
+# wiki_dir = "wiki"

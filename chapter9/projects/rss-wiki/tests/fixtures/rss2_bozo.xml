@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Bozo 피드</title>
+    <link>https://example.com/</link>
+    <description>이스케이프 안 된 앰퍼샌드 포함</description>
+    <item>
+      <title>Q&A 시간</title>
+      <link>https://example.com/posts/bozo-1</link>
+      <guid>bozo-1</guid>
+      <description>Tom & Jerry 이야기</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,120 @@
+- 2026-10-29T22:38:08+09:00 planner: PRD.md 신규 작성
+- 2026-10-29T23:00:00+09:00 planner: PRD 미해결 11건을 PLAN으로 이관하고 docs/decisions/에 후보·Planner 선택 기록, PLAN(M1~M5)·TASKS(T1~T14) 신규 작성, 다음 작업 T1 설정 모듈·T2 DB 스키마 선정
+- 2026-10-29T23:08:43+09:00 generator: T1 설정 모듈 구현(config.py, 테스트 12건 통과), pytest dev 의존성 추가
+- 2026-10-29T23:20:00+09:00 planner: 의사결정 11건 합의 결과를 PRD 10장에 (자체 결정: 합의)로 반영하고 PLAN 미해결 섹션 정리, 대기 해제된 T3을 argparse 기준으로 구체화, 다음 작업 T2 DB 스키마·T3 CLI 골격과 init 선정
+- 2026-10-29T23:40:00+09:00 generator: T2 DB 스키마 모듈 구현(db.py, 테스트 10건, 전체 22건 통과)
+- 2026-10-29T23:14:04+09:00 evaluator: T2 DB 스키마 평가 PASS(10/12), 테스트 22건 직접 확인, 고아 글 guid 중복·연결 누수·autocommit 문서화를 다음 사이클 메모로 이관
+- 2026-10-29T23:30:00+09:00 planner: T2 REVIEW(PASS) 반영. 메모 2~4를 T2a(DB 연결 누수·docstring·테스트 보강)로 신설, 고아 글 재연결 정책(자체 결정)을 PLAN M2·T6 메모에 추가, PLAN에 autocommit 계약 명시, 다음 작업 T2a·T3 선정
+- 2026-10-29T23:15:26+09:00 generator: T2a DB 모듈 보완 구현(연결 누수 수정, docstring, 테스트 4건 추가, 전체 26건 통과)
+- 2026-10-29T23:16:25+09:00 evaluator: T2a DB 모듈 보완 평가 PASS(11/12), 테스트 26건 직접 확인, 실패 시 연결 close를 Windows 파일 삭제로 수동 검증, close 회귀 테스트 부재를 선택 메모로 이관
+- 2026-10-29T23:25:00+09:00 planner: T2a REVIEW(PASS 11/12) 반영. PLAN 현재 상태 갱신, T3에 close 회귀 테스트(메모 1)·DatabaseError 메시지 stderr 출력·엔트리포인트 유지(자체 결정)를 추가, 다음 작업 T3 CLI 골격과 init 선정
+- 2026-10-29T23:18:07+09:00 generator: T3 CLI 골격과 init 구현(cli.py, 종료 코드 매핑, close 회귀 테스트 추가, 전체 34건 통과)
+- 2026-10-29T23:19:15+09:00 evaluator: T3 CLI 골격과 init 평가 PASS(10/12), 테스트 34건과 엔트리포인트 시나리오 직접 확인, init 스키마 검증·로그 옵션 테스트 부재와 httpx 로그 노출 주의를 메모로 이관
+- 2026-10-29T23:35:00+09:00 planner: T3 REVIEW(PASS 10/12) 반영. PLAN 현재 상태를 M1 완료로 갱신, 메모 1~3을 T3a(로그 옵션 상호 배타·httpx 로거 WARNING(자체 결정)·init 테스트 보강)로 신설, 메모 4를 T14로 이관, T4 HTTP 계층 사양 구체화, 다음 작업 T3a·T4 선정
+- 2026-10-29T23:21:28+09:00 generator: T3a CLI 로그 옵션 정리와 init 테스트 보강 구현(상호 배타 옵션, httpx 로거 WARNING, 테스트 8건 추가, 전체 42건 통과)
+- 2026-10-29T23:22:38+09:00 evaluator: T3a CLI 로그 옵션 정리와 init 테스트 보강 평가 PASS(11/12), 테스트 42건과 --verbose --quiet → 2 직접 확인, verbose DEBUG·quiet WARNING 미고정과 영어 메시지 단언을 메모로 이관
+- 2026-10-29T23:40:00+09:00 planner: T3a REVIEW(PASS 11/12) 반영. T3a의 다음 표시 제거, PLAN 현재 상태를 42건·T3a 완료로 갱신, 메모 1·2를 T3b(로그 수준 테스트 강화·conftest 로거 복원, tests만 수정)로 신설, 메모 4를 T13 메모로 이관, 다음 작업 T3b·T4 선정
+- 2026-10-29T23:24:07+09:00 generator: T3b 로그 수준 테스트 강화와 로거 상태 격리 구현(conftest 추가, 테스트 수정, 전체 41건 통과)
+- 2026-10-29T23:25:20+09:00 evaluator: T3b 로그 수준 테스트 강화와 로거 상태 격리 평가 PASS(12/12), test_cli_init 14건·양방향 순서 29건·전체 41건 직접 확인, src 미수정 확인, PLAN 현재 상태 갱신과 conftest handler close를 메모로 이관
+- 2026-10-29T23:45:00+09:00 planner: T3b REVIEW(PASS 12/12) 반영. PLAN 현재 상태를 41건·T3b 완료로 갱신, 메모 2(conftest handler close)를 T4 부수 작업·touch·acceptance(순서 독립성)에 추가, 다음 작업 T4 HTTP 계층 선정
+- 2026-10-29T23:27:08+09:00 generator: T4 HTTP 계층 구현(httpx, http.py·test_http.py 11건, conftest handler close, 전체 52건 통과)
+- 2026-10-29T23:28:25+09:00 evaluator: T4 HTTP 계층 평가 PASS(10/12), test_http 11건·양방향 순서 29건·전체 52건 직접 확인, touch 준수 확인, httpx RequestError 누출(TooManyRedirects)·재시도 로그 테스트 부재를 메모로 이관
+- 2026-10-29T23:30:00+09:00 planner: T4 REVIEW(PASS 10/12) 반영. 메모 1~4를 T4a(RequestError 감싸기·UnsupportedProtocol 비재시도(자체 결정)·max_retries 검증·테스트 보강)로 신설, T5를 파싱(T5)과 명령(T5a)으로 분할·구체화, PLAN 현재 상태 갱신, 다음 작업 T4a·T5 선정
+
+- 2026-10-29T14:30:28Z generator: T4a 완료 - HttpClient가 httpx 예외를 HttpError로 감싸고 max_retries 검증, 테스트 5건 추가(전체 57건 통과)
+- 2026-10-29T23:31:35+09:00 evaluator: T4a HTTP 예외 감싸기 평가 PASS(11/12), test_http 16건·전체 57건·양방향 순서 45건 직접 확인, 실제 ftp·DecodingError·max_retries=0 탐침 정상, 타입명·__cause__·DecodingError 테스트 부재를 메모로 이관
+- 2026-10-29T23:35:00+09:00 planner: T4a REVIEW(PASS 11/12) 반영. T4a 다음 표시 제거, PLAN 현재 상태를 57건·T4a 완료로 갱신, 메모 1(http 테스트 보강)·메모 2(HttpError→종료 코드 1, transient 안내 문구(자체 결정))를 T5a 부수 작업·내용에 추가, 다음 작업 T5 피드 파싱 선정
+- 2026-10-29T23:33:34+09:00 generator: T5 완료 - feeds.py parse_feed(RSS2·Atom, guid 폴백, 날짜 ISO8601, FeedParseError), 테스트 7건 추가(전체 64건 통과)
+- 2026-10-29T23:35:07+09:00 evaluator: T5 피드 파싱 평가 PASS(11/12), test_feeds_parse 7건·전체 64건 직접 확인, bozo·EUC-KR·비피드 입력 탐침 정상, bozo·isPermaLink guid 변환 테스트 부재와 비 http url(Atom id) 문제를 메모로 이관
+- 2026-10-29T23:40:00+09:00 planner: T5 REVIEW(PASS 11/12) 반영. 메모 1과 T4a 메모 1을 T5b(파싱·HTTP 테스트 보강, tests만)로 신설, T5a를 FeedError·등록 URL base_url(자체 결정)·make_http_client 주입 기준으로 구체화, 메모 2를 T7(비 http url 추출 생략, 자체 결정)·메모 3·4를 T6에 이관, 다음 작업 T5b·T5a 선정
+- 2026-10-29T14:36:47Z generator: T5b 완료 - bozo 픽스처·상대 guid/링크·DecodingError 등 테스트 3건 추가, 전체 67건 통과
+- 2026-10-29T23:38:07+09:00 evaluator: T5b 테스트 보강 평가 PASS(11/12), 대상 2파일 26건·전체 67건 직접 확인, src 무수정 확인, bozo 제목 'Q&A'→'Q&A;' 변형 미단언·bozo 로그 전제 미검증을 메모로 이관
+- 2026-10-29T23:45:00+09:00 planner: T5b REVIEW(PASS 11/12) 반영. 메모 1(bozo 제목 'Q&A;' 변형은 보정 없이 고정, 자체 결정)·메모 2·3을 T5c(tests만, 단언 보강)로 신설, 메모 2의 Content-Type 연동 점검을 T6 메모에 추가, PLAN 현재 상태를 67건으로 갱신, 다음 작업 T5c·T5a 선정
+- 2026-10-29T14:39:45Z generator: T5c 완료 - bozo 파싱 결과·HTTP 오류 cause/URL 단언 보강, 전체 67건 통과
+- 2026-10-29T23:40:45+09:00 evaluator: T5c 단언 보강 평가 PASS(11/12), 대상 26건·전체 67건 직접 확인, src 무수정 확인, '피드 문법 경고' 로그가 정상 픽스처에서도 기록돼 bozo 전제를 판별하지 못함을 메모로 이관
+- 2026-10-29T23:45:00+09:00 planner: T5c REVIEW(PASS 11/12) 반영. 메모 1(bozo 로그 단언에 'not well-formed' 조건)을 T5a 부수 작업·touch·acceptance에 추가, 반대 방향 테스트를 T6 메모로 이관, PLAN 현재 상태를 T5c 완료로 갱신, 다음 작업 T5a feed add/list/remove 선정
+- 2026-10-29T15:10:00Z generator: T5a 완료 - feed add/list/remove 구현, 신규 12건·전체 79건 통과
+- 2026-10-30T23:56:46+09:00 planner: T5a REVIEW(PASS 10/12) 반영. 메모 1~4를 T5d(remove_feed ASCII 숫자 판별·docstring·목록/404/리다이렉트/² 테스트)로 신설, T6 fetch 사양 구체화(조건부 요청·고아 재연결·피드별 실패 격리, summaries 미생성(자체 결정)), Content-Type 연동을 T6a로 분리, 다음 작업 T5d·T6 선정
+- 2026-10-30T14:57:38Z generator: T5d 완료 - remove_feed ASCII 숫자 판별, 목록/404/리다이렉트/² 테스트 보강, 전체 81건 통과
+- 2026-10-30T23:59:08+09:00 evaluator: T5d PASS 12/12 - acceptance 3건 직접 확인(feed_cmd 14·전체 81 통과, remove ² 종료 1·트레이스백 없음), touch 범위 준수, 선택 메모 2건(² 테스트 문구 단언, 상대 guid는 T6에서 확인)
+- 2026-10-31T00:05:00+09:00 planner: T5d REVIEW(PASS 12/12) 반영. PLAN 현재 상태를 81건·T5d 완료로 갱신, 메모 1(² 테스트 문구 단언)을 T6 부수 작업·touch·acceptance에 추가, 메모 2는 기존 T6 acceptance로 확인, 다음 작업 T6 fetch 선정
+- 2026-10-30T15:01:09Z generator: T6 완료 - fetch.py, CLI fetch, 고아 재연결·조건부 요청·피드별 실패 격리, 전체 91건 통과
+- 2026-10-31T00:02:55+09:00 evaluator: T6 PASS 10/12 - acceptance 4건 직접 확인(fetch 10·feeds_cmd 14·전체 91 통과, fetch --help 0), 추가 시나리오 6건(HTML·빈 본문·error_count 초기화·응답 내 guid 중복·Atom·fetch_all 없는 id) 정상, touch 준수. 메모: WARNING 로그·FeedParseError·error_count 초기화·fetch_all 테스트 보강, 저장 중 sqlite3.Error 격리 방침, last_status 길이
+- 2026-10-31T00:10:00+09:00 planner: T6 REVIEW(PASS 10/12) 반영. 메모 1~4를 T6b로 신설(저장 중 sqlite3.Error → DatabaseError 종료 코드 2(자체 결정), last_status 200자 상한(자체 결정), fetch_all 유지·WARNING 로그·FeedParseError·error_count 초기화·ROLLBACK 테스트 보강), PLAN 현재 상태를 91건·T6 완료로 갱신, 다음 작업 T6b 선정
+- 2026-10-31T01:00:00+09:00 generator: T6b 완료 - 저장 중 sqlite3.Error → DatabaseError(종료 코드 2), last_status 200자 상한, fetch 테스트 7건 추가, 전체 98건 통과
+- 2026-10-31T00:06:41+09:00 evaluator: T6b PASS 10/12 - acceptance 직접 확인(test_fetch 17·전체 98 통과), 추가 시나리오 3건(부분 INSERT 후 ROLLBACK·_record_error DatabaseError·비 sqlite 예외 재던짐) 정상, touch 준수. 메모: 304 UPDATE sqlite3.Error 미래핑(트레이스백), ROLLBACK 테스트가 INSERT 전 실패라 검증력 약함, _record_error 실패 테스트·절단 길이 정확 단언
+- 2026-10-31T00:20:00+09:00 planner: T6b REVIEW(PASS 10/12) 반영. T7을 추출 모듈(extract.py: html_to_text(HTMLParser, 자체 결정)·extract_article(trafilatura))과 메모 1~3(304 분기 DatabaseError 래핑, ROLLBACK·_record_error·304 실패 테스트, 절단 정확 단언)으로 구체화, fetch 본문 정책 연동을 T7a로 분리, 메모 4를 T13 메모로 이관, PLAN 현재 상태 98건 갱신, 다음 작업 T7 선정
+- 2026-10-31T02:00:00+09:00 generator: T7 완료 - extract.py(html_to_text·extract_article, trafilatura 추가), 304 분기 DatabaseError 래핑, fetch 테스트 강화 2건 추가, 전체 107건 통과
+- 2026-10-31T00:11:00+09:00 evaluator: T7 PASS 10/12 - acceptance 직접 확인(test_extract 7·test_fetch 19·전체 107 통과), html_to_text 경계 입력·extract_article 예외/KeyboardInterrupt 전파 시나리오 정상, touch 준수. 메모: trafilatura 자체 ERROR 로그 소음(T7a에서 cli 로깅 억제), 예외 경로 DEBUG 로그·bytes 결과 내용 단언 보강, 인라인 태그 공백 삽입 동작 고정 검토
+- 2026-10-31T00:30:00+09:00 planner: T7 REVIEW(PASS 10/12) 반영. T7a를 본문 정책 연동(트랜잭션 밖 원문 GET, 비 http url 생략, min_content_chars 키워드 인자)과 메모 1~3(trafilatura 로거 CRITICAL(자체 결정)·conftest 복원, extract 테스트 단언 보강, html_to_text 인라인 공백 고정)으로 구체화, PLAN 현재 상태 107건·모듈 책임 갱신, 다음 작업 T7a 선정
+- 2026-10-31T00:14:18+09:00 generator: T7a 완료 - fetch 본문 정책 연동(500자 미만 새 글만 트랜잭션 밖 원문 추출, 실패 시 RSS 본문), trafilatura 로거 CRITICAL, extract 테스트 보강, 전체 117건 통과
+- 2026-10-31T00:16:06+09:00 evaluator: T7a PASS 10/12 - acceptance 직접 확인(test_fetch·test_extract 36·전체 117 통과), 트랜잭션 밖 원문 GET·trafilatura 억제 테스트 변이 내성 확인, touch 준수. 메모: _is_new sqlite3.Error 미래핑(트레이스백 노출), 응답 내 guid 중복·원문 5xx 테스트 추가, 404 테스트 caplog 정리, 원문 GET 상한·재시도 검토
+- 2026-10-31T00:40:00+09:00 planner: T7a REVIEW(PASS 10/12) 반영. 메모 1~3을 T7b(_is_new 조회 sqlite3.Error → DatabaseError 래핑, 응답 내 guid 중복·원문 503 테스트, 404 테스트 caplog 정리)로 신설, 메모 4(원문 GET 상한·재시도 축소)를 T14 메모로 이관, T8(Summarizer 프로토콜·validate_summary 직접 검증(자체 결정)·truncate_input·build_prompt) 구체화, PLAN 현재 상태 117건 갱신, 다음 작업 T7b·T8 선정
+- 2026-10-31T00:20:00+09:00 generator: T7b 완료 - _resolve_bodies의 _is_new sqlite3.Error를 DatabaseError(글 조회 실패)로 래핑, 조회 실패·응답 내 guid 중복·원문 503 테스트 추가, 404 테스트 caplog 정리, 전체 120건 통과
+- 2026-10-31T00:19:21+09:00 evaluator: T7b PASS 11/12 - acceptance 직접 확인(test_fetch 31·전체 120 통과), _is_new 래핑·guid 중복 테스트 변이 내성 확인, touch 준수. 메모: 503 테스트 요청 횟수·본문 단언, from exc 연쇄 단언(선택), 원문 GET 상한은 T14 유지
+- 2026-10-31T00:50:00+09:00 planner: T7b REVIEW(PASS 11/12) 반영. PLAN 현재 상태를 M1·M2 완료·120건으로 갱신, 메모 1·2(원문 503 요청 횟수·본문 단언, fetch_feed 직접 호출 __cause__ 단언)를 T8 부수 작업(tests만)·touch·acceptance에 추가, 메모 3은 T14 메모 유지, 다음 작업 T8 Summarizer 프로토콜·검증·절단 선정
+- 2026-10-31T00:21:21+09:00 generator: T8 완료 - summarize.py(Summarizer 프로토콜·SUMMARY_SCHEMA·validate_summary·truncate_input·build_prompt) 추가, T7b 메모 1·2 테스트 단언 보강, 전체 142건 통과
+- 2026-10-31T00:23:00+09:00 evaluator: T8 PASS 10/12 - acceptance 직접 확인(test_summarize_core 22·test_fetch 31·전체 142 통과), touch 준수·새 의존성 없음. 메모: 비문자열 원소 배열·list 입력 메시지 테스트, T9에서 SUMMARY_SCHEMA의 minItems/maxItems 구조화 출력 지원 확인, SummaryResult 불변성·build_prompt 태그 정규화(선택)
+- 2026-10-31T01:00:00+09:00 planner: T8 REVIEW(PASS 10/12) 반영. T9(Claude 구현: 강제 도구 호출·strict 미사용(자체 결정), SDK 재시도 끔(자체 결정), 예외 → SummarizerError(transient), API 키 없으면 ConfigError)를 구체화하고 메모 1·4(검증 테스트·build_prompt 태그 정규화)를 부수 작업으로 추가, 메모 2 후반·3을 T10 메모로 이관, PLAN 현재 상태 142건·claude.py 책임 추가, 다음 작업 T9 선정
+- 2026-10-31T00:27:22+09:00 generator: T9 완료 - claude.py(ClaudeSummarizer 강제 도구 호출·예외 매핑·create_claude_summarizer) 추가, build_prompt 태그 정규화, T8 메모 테스트 보강, 전체 162건 통과
+- 2026-10-31T01:10:00+09:00 planner: 새 REVIEW 없음(REVIEW.md는 T8 대상). T10 사양을 DB 스키마·claude.py와 대조해 유지하고, T9 회귀·IMPL 편차 확인, last_error 절단 규칙 재사용(fetch.py 무수정), 고아 글 요약 포함(자체 결정) 메모를 T10에 추가, PLAN 현재 상태 갱신, 다음 작업 T10 요약 실행 모듈 선정
+- 2026-10-31T08:38:05+09:00 generator: T10 요약 실행 모듈 구현(summarize_run.py, 테스트 14건, 전체 176건 통과)
+- 2026-10-31T08:40:42+09:00 evaluator: T10 PASS 10/12 (사양 3·경계 3·테스트 2·운영 2), acceptance 14건·전체 176건 통과, T9 test_claude 17건 회귀 없음, 메모: 재요약 article_tags 교체 테스트 부재·실패 로그 url 의존·httpx2 미선언
+- 2026-10-31T08:50:00+09:00 planner: T10 REVIEW(PASS 10/12) 반영. 메모 1~4를 T10b(실패 로그 url 비의존(자체 결정)·재시도/성공 로그·재요약 태그 교체·attempts 유지 테스트·httpx2 dev 의존성(자체 결정))로 신설, 메모 5를 T10a acceptance(`--limit -1` → 2)에 추가, test_claude 건수 17건으로 정정, PLAN 현재 상태 176건 갱신, 다음 작업 T10b·T10a 선정
+- 2026-10-31T08:47:59+09:00 generator: T10b 요약 실행 모듈 보완(url 비의존 로그·재시도/완료 로그·테스트 4건·httpx2 dev 의존성, 전체 180건 통과)
+- 2026-10-31T08:54:04+09:00 evaluator: T10b PASS 11/12 (사양 3·경계 3·테스트 2·운영 3), acceptance 18건·test_claude 17건·전체 180건 통과, httpx2 dev 선언 확인, 메모: url 대체값·Row 경우와 재시도 로그 내용 단언 보강
+- 2026-10-31T09:00:00+09:00 planner: T10b REVIEW(PASS 11/12) 반영. 메모 1·2(url 없는 Row parametrize·WARNING/`-` 단언, 재시도 `1/3`·원인·INFO 태그 단언)를 T10a 부수 작업(tests만)으로 추가, 메모 3은 전제 정정(기본 로그 INFO, PRD 8장) 후 stdout 로그 미혼입·`--quiet` INFO 숨김 테스트로 acceptance에 반영(자체 결정), PLAN 현재 상태 180건 갱신, 다음 작업 T10a summarize CLI 선정
+- 2026-10-31T00:01:10Z generator: T10a summarize CLI 구현(--limit 양의 정수, make_summarizer 주입, 결과/합계 출력, 종료 코드 0/1/2) + T10b 메모 1·2 테스트 보강, 전체 192건 통과
+- 2026-10-31T10:17:44+09:00 evaluator: T10a PASS 11/12 (사양 3·경계 3·테스트 3·운영 2), acceptance cmd 11건·run 19건·전체 192건·--help 0 통과, 실제 진입점 키 없음/--limit abc → 2 확인, 메모: anthropic 지연 import(전 명령 +4.4초), 실행 중 DatabaseError 시 커밋된 결과 줄 미출력, 탭/개행 출력 형식
+- 2026-10-31T10:30:00+09:00 planner: T10a REVIEW(PASS 11/12) 반영. 메모 1·2를 T10c(anthropic 지연 import, summarize_pending on_outcome 콜백(자체 결정)으로 결과 즉시 출력·DatabaseError 시 처리한 줄 유지, --limit abc 테스트)로 신설, 메모 3·4를 T14 메모로 이관, T11(wiki.py 글별 Markdown: slug -{id} 접미·JSON 인용 front matter·LF 고정, 자체 결정) 구체화, T12에 오래된 파일 정리·전체 멱등 메모 추가, PLAN 현재 상태 192건 갱신, 다음 작업 T10c·T11 선정
+- 2026-10-31T01:20:38Z generator: T10c 구현(summarize_pending on_outcome 콜백으로 결과 즉시 출력, anthropic 지연 import, DatabaseError·--limit abc·미로딩 테스트 4건 추가), 전체 196건 통과
+- 2026-10-31T10:22:37+09:00 evaluator: T10c PASS 12/12 (사양 3·경계 3·테스트 3·운영 3), acceptance cmd 14건·run 20건·전체 196건·anthropic 미로딩 False 통과, feed list 4.2초→0.96초, 키 없음/--limit abc → 2 실제 진입점 확인, 메모: trafilatura 지연 import 검토(선택), T13 콜백 출력 실패 정책
+- 2026-10-31T10:35:00+09:00 planner: T10c REVIEW(PASS 12/12) 반영. T10c 다음 표시 제거·결과 기록, PLAN 현재 상태를 M3 완료·196건으로 갱신, 메모 2(콜백 출력 실패 정책)를 T13 메모, 메모 1(trafilatura 지연 import, 선택)을 T14 메모로 이관, T11에 fetch/extract/claude 비의존 조건 추가, 다음 작업 T11 글별 Markdown 선정
+- 2026-10-31T01:24:49Z generator: T11 구현(wiki.py 글별 Markdown 렌더링·쓰기, slug -{id} 접미, JSON 인용 front matter, LF 고정, 테스트 6건 추가), 전체 202건 통과
+- 2026-10-31T10:26:37+09:00 evaluator: T11 PASS 10/12 (사양 3·경계 3·테스트 2·운영 2), acceptance 6건·전체 202건 통과, slug 60자·CON·published 폴백·재실행 mtime 유지 확인, 메모: 제목 개행·tldr CR 미정규화(LF 고정 깨짐), url 공백/괄호 링크 깨짐, write_articles 태그·key_points NULL 테스트 보강
+- 2026-10-31T10:40:00+09:00 planner: T11 REVIEW(PASS 10/12) 반영. 메모 1~4를 T11a(one_line 본문 정규화·tldr CR 제거·꺾쇠 링크 목적지·articles/unknown 폴백·태그/NULL/mtime 테스트)로 신설, 메모 5를 T12에 반영해 주제 페이지·인덱스·오래된 .md 정리·build CLI(태그 파일명 충돌/예약 이름 -N 접미, OSError → 2, 자체 결정)로 구체화, PLAN 현재 상태 202건 갱신, 다음 작업 T11a·T12 선정
+- 2026-10-31T01:35:00Z generator: T11a 완료 (one_line 본문 정규화·꺾쇠 링크 목적지·articles/unknown 폴백·테스트 7건 추가, 전체 209건 통과)
+- 2026-10-31T10:50:00+09:00 planner: 새 REVIEW 없음(REVIEW.md는 T11 대상). T11a 결과를 wiki.py와 대조해 기록하고, T12에 build_wiki의 sqlite3.Error 일괄 래핑·주제/인덱스 TL;DR one_line 한 줄화 메모와 회귀 기준 209건을 추가, PLAN 현재 상태 갱신, 다음 작업 T12 주제 페이지·인덱스·build CLI 선정
+- 2026-10-31T01:35:08Z generator: T12 완료 (topic_filenames·render_topic·render_index·build_wiki·오래된 .md 정리·build CLI, 테스트 8건 추가, 전체 217건 통과)
+- 2026-10-31T01:37:32Z evaluator: T12 PASS 11/12 (사양3·경계3·테스트2·운영3, test_wiki_build 8건·전체 217건 통과, 두 번 build 바이트·mtime 동일로 M4 완료 기준 확인, 메모 5건: seed·단언 보강과 DatabaseError 테스트, 주제 파일명 변동, 부분 갱신, 중복 쓰기 코드, 정렬 키 전제)
+- 2026-10-31T11:00:00+09:00 planner: T12 REVIEW(PASS 11/12) 반영. PLAN 현재 상태를 M1~M4 완료·217건으로 갱신, 메모 1·4를 T12a(seed·줄 단위 단언·DatabaseError·RECENT_LIMIT 테스트, _write_if_changed 재사용·중복 조회 제거)로 신설, 메모 3을 T13, 메모 2를 T14(README), 메모 5를 PLAN 참고로 이관, T13을 run(API 키 선확인·단계 중 치명 오류 중단·BrokenPipeError → 1, 자체 결정)으로 구체화하고 status를 T13b로 분리, 다음 작업 T12a·T13 선정
+- 2026-10-31T01:40:29Z generator: T12a 완료 (wiki.py 중복 쓰기·조회 정리, test_wiki_build seed·줄 단위 단언 보강과 신규 2건, 전체 219건 통과)
+- 2026-10-31T01:41:53Z evaluator: T12a PASS 12/12 (사양3·경계3·테스트3·운영3, test_wiki_build 10건·test_wiki_articles 13건·전체 219건 통과, SQL 추적으로 build_wiki의 글 조회 1회 확인, 메모 2건: 149행 SyntaxWarning raw 문자열화, write_articles 공개 유지 여부 참고)
+- 2026-10-31T11:10:00+09:00 planner: T12a REVIEW(PASS 12/12) 반영. T12a 결과 기록, PLAN 현재 상태를 219건으로 갱신, 메모 1(test_wiki_build.py:149 raw 문자열화)을 T13 부수 작업·touch·acceptance(-W error::SyntaxWarning)에 추가, 메모 2(write_articles 공개 유지 판단)를 T14 메모로 이관, 다음 작업 T13 run 명령과 출력 실패 정책 선정
+- 2026-10-31T01:44:41Z generator: T13 완료 (run 명령, _do_fetch/_do_summarize 공유, BrokenPipe→1, 위키 빌드 OSError→2, test_run_cmd 11건 추가, 전체 230건 통과)
+- 2026-11-02T10:00:00+09:00 planner: 새 REVIEW 없음(REVIEW.md는 T12a 대상). T13 결과를 cli.py와 대조해 기록, T13b를 status.py(collect_status·StatusCounts, 대기 조건은 select_targets와 일치)와 4줄 텍스트 출력·항상 0(자체 결정)으로 구체화, PLAN 현재 상태 230건·status.py 책임 추가, 다음 작업 T13b status 명령 선정
+- 2026-11-02T21:52:20+09:00 generator: T13b 완료 (status 명령, status.py collect_status, test_status_cmd 5건 추가, 전체 235건 통과)
+- 2026-11-02T21:54:52+09:00 evaluator: T13b status 명령 평가 PASS(11/12, 사양3·경계3·테스트2·운영3), test_status_cmd 5건·전체 235건·status --help 0 직접 확인, T13 acceptance 재실행 회귀 없음, 실제 진입점으로 init 전 0·손상 DB → 2 확인, touch 준수. 메모: 로그 분리 테스트 검증력 없음(로그 미발생), 빈 DB 2행 단언, CLI DatabaseError → 2 테스트(선택)
+- 2026-11-02T22:05:00+09:00 planner: T13b REVIEW(PASS 11/12) 반영. T13b 결과 기록, 메모 1~3을 T13c(status 로그 분리 실검증·빈 DB 전체 줄·손상 DB → 2, tests만)로 신설, 메모 4와 README(현재 빈 파일)·UTF-8 콘솔 subprocess 점검을 T14로 구체화, 남은 선택 메모는 T14a로 분리(원문 GET 상한 미적용·write_articles 공개 유지, 자체 결정), TASKS 미완료가 남아 DONE 미생성, 다음 작업 T13c·T14 선정
+- 2026-11-02T21:57:50+09:00 generator: T13c 완료 (status 테스트 보강: 로그 stderr 분리 실검증, 빈 DB 전체 줄 비교, 손상 DB → 2, 전체 236건 통과)
+- 2026-11-02T21:59:14+09:00 evaluator: T13c status 테스트 보강 평가 PASS(12/12, 사양3·경계3·테스트3·운영3), test_status_cmd 6건·전체 236건 직접 확인, 변경은 tests/test_status_cmd.py만(src 미수정), 로그 분리·빈 DB 전체 줄·손상 DB → 2 검증력 확인. 메모: --quiet 반대 방향 단언(선택), 다음 T14
+- 2026-11-02T22:10:00+09:00 planner: T13c REVIEW(PASS 12/12) 반영. T13c 결과 기록, PLAN 현재 상태 236건 갱신, 메모 1(`--quiet status` 로그 미출력 단언)을 T14 부수 작업·touch·acceptance(241건)에 추가, README가 아직 빈 파일이라 PRD 대비 간극 남아 DONE 미생성, 다음 작업 T14 README·UTF-8 콘솔 점검 선정
+- 2026-11-02T22:02:01+09:00 generator: T14 완료 (README 작성, test_readme 4건·cp949 UTF-8 subprocess, --quiet status 단언, 전체 241건 통과)
+- 2026-11-02T22:04:36+09:00 evaluator: T14 README·UTF-8 콘솔 점검 평가 PASS(10/12, 사양3·경계3·테스트2·운영2), test_readme 4건·test_status_cmd 7건·전체 241건 직접 확인, src 미수정, cp949 테스트 검증력 확인. 메모: README cron 예시가 프로젝트 밖 cwd에서 실패(uv run --project 필요, 재현 종료 코드 2), 설정 상대 경로 기준 미기재, README 테스트 기본값·공통 옵션 미대조(선택)
+- 2026-11-02T22:15:00+09:00 planner: T14 REVIEW(PASS 10/12) 반영. T14 결과 기록, PLAN 현재 상태 241건 갱신, 메모 1~3을 T14b(README cron·작업 스케줄러 예시를 `uv run --project` 형태로 수정, 설정 상대 경로·--data-dir 추종 규칙 안내, README 기본값 대조·옵션 토큰·--project 테스트)로 신설, 선택 항목 T6a·T14a 미완료라 DONE 미생성, 다음 작업 T14b 선정
+- 2026-11-02T22:07:09+09:00 generator: T14b 완료 - README 주기 실행(uv run --project)·설정 경로 안내 수정, test_readme 6건(기본값 대조·--project 포함), 전체 243건 통과
+- 2026-11-02T22:09:01+09:00 evaluator: T14b README 주기 실행·설정 경로 안내 평가 PASS(11/12, 사양3·경계3·테스트2·운영3), test_readme 6건·전체 243건·프로젝트 밖 uv run --project status 종료 코드 0 직접 확인, README 경로 규칙이 config.py:48·69·71-72와 일치, src 미수정. 메모(선택): --project 테스트를 cron 줄 단위로 좁히기, README:113 문장 정확화·cron PATH의 uv 절대 경로 안내
+- 2026-11-02T22:20:00+09:00 planner: T14b REVIEW(PASS 11/12) 반영. T14b 결과 기록, PRD 전체 재대조로 모든 요구가 코드·README에 대응함을 확인, 선택 항목 T6a·T14a를 범위 밖으로 닫음(자체 결정), 메모 1·2를 마지막 항목 T14c(README:113 문장 정확화·cron PATH 안내·cron 줄 단위 테스트)로 신설, 미완료 항목이 남아 DONE 미생성, 다음 작업 T14c 선정
+- 2026-11-02T13:11:36Z generator: T14c 완료 (README 주기 실행 문장 정확화·uv 절대 경로 안내, cron/Windows 줄 단위 테스트, 전체 243건 통과)
+- 2026-11-02T22:13:00+09:00 evaluator: T14c README 주기 실행 문장 정확화·cron 줄 단위 테스트 평가 PASS(11/12, 사양3·경계3·테스트2·운영3), test_readme 6건·전체 243건·--help 종료 코드 0·cron 줄 변이 시 실패 직접 확인 후 원복, src 미수정. 메모(선택): test_readme.py:49 ' run' 단언이 공허함, Windows 예 uv 절대 경로 안내
+- 2026-11-02T22:20:00+09:00 planner: T14c REVIEW(PASS 11/12) 반영. T14c 결과 기록, 선택 메모 2건(test_readme 공허 단언·Windows uv 절대 경로)을 범위 밖으로 닫음(자체 결정), PRD 전체 재대조로 모든 요구가 코드에 대응함을 확인, TASKS 전 항목 완료·직전 REVIEW PASS로 docs/DONE 생성
+- 2026-11-02T22:40:00+09:00 planner: PRD v2(웹 UI·디자인 품질·요약 병렬) 재대조로 간극 3건 확인, DONE 미생성. 미해결 "웹 프레임워크 선택"을 PLAN으로 이관하고 docs/decisions/web-framework.md(A Flask/B FastAPI/C 표준 라이브러리)·planner 선택 A 기록, PLAN에 M6(요약 병렬)·M7(웹 UI, 합의 대기) 추가, 다음 작업 T15 summarize.concurrency 설정·T16 요약 LLM 호출 병렬화 선정
+- 2026-11-02T13:41:24Z generator: T15 설정 summarize.concurrency(기본 4, [summarize] 테이블) 추가, README·테스트 갱신, 전체 250건 통과
+- 2026-11-02T13:43:20Z evaluator: T15 PASS 11/12(사양3·경계3·테스트2·운영3), acceptance 직접 실행 250건 통과, web-framework.evaluator.md 독립 선택 A 기록
+- 2026-11-02T22:50:00+09:00 planner: T15 REVIEW(PASS 11/12) 반영. web-framework 합의 A(Flask + Jinja2)를 PRD 11장에 (자체 결정: 합의)로 반영하고 PLAN 미해결 정리·M7 대기 해제, 메모 1·3(config 테스트 보강·429 재시도 확인)을 T16 부수 작업·acceptance에 추가, T17(serve 골격·디자인 토큰·빈 상태 홈·스크린샷) 구체화, PRD 간극(병렬 요약·웹 UI) 남아 DONE 미생성, 다음 작업 T16 선정
+- 2026-11-02T13:47:10Z generator: T16 요약 LLM 호출 병렬화 완료 (summarize_pending concurrency, 전체 259건 통과)
+- 2026-11-02T13:49:30Z evaluator: T16 PASS 10/12(사양3·경계3·테스트2·운영2), acceptance 직접 실행 259건 통과, DatabaseError 취소 경로 테스트 부재·Ctrl+C 시 대기 지연을 메모로 넘김
+- 2026-11-02T23:00:00+09:00 planner: T16 REVIEW(PASS 10/12) 반영. T16 결과 기록, PLAN 현재 상태를 M6 구현 완료·259건으로 갱신, 메모 1~4를 T16a(DatabaseError 취소 테스트·429 단언 보강·KeyboardInterrupt 시 shutdown(wait=False)(자체 결정)·README 429 주의)로 신설, 웹 UI 간극(M7) 남아 DONE 미생성, 다음 작업 T16a·T17 선정
+- 2026-11-02T13:52:20Z generator: T16a 완료 - KeyboardInterrupt 시 shutdown(wait=False), DatabaseError 취소·Ctrl+C 테스트 2건, 429 단언·README 주의 추가, 전체 261건 통과
+- 2026-11-03T09:00:00+09:00 planner: 직전 REVIEW(T16 PASS)는 이미 반영됨. T16a는 Evaluator 없이 넘어와 코드(summarize_run.py:226-227)·README 429 문구를 Planner가 확인하고 결과를 기록. PLAN 현재 상태 M1~M6 완료로 갱신, 웹 UI(M7) 간극이 남아 DONE 미생성, 다음 작업 T17(serve 골격·디자인 토큰·빈 상태 홈·스크린샷) 선정
+- 2026-11-02T22:16:07Z generator: T17 코드·테스트 완료(266건 통과), 스크린샷 불가(Playwright 권한 거부)로 BLOCKED(1회째)
+- 2026-11-02T22:17:29Z evaluator: T17 조건부 PASS 11/15 - test_web 5건·전체 266건 통과, serve --help 0, 스크린샷 미존재(Playwright 권한 거부, Evaluator도 동일)로 사양 충족 1점, 내비 링크 404 지적
+- 2026-11-03T09:30:00+09:00 planner: T17 REVIEW(조건부 PASS 11/15) 반영. T17은 스크린샷만 남아 미완료 유지(PRD 5장 요구라 acceptance 유지, BLOCKED 1회째, T18 세션에서 재시도·3회째면 HALT), 메모 2(내비 미구현 링크 "준비 중" 표시)·3(data-count·caplog 단언)을 T18에 반영, T18(피드 관리 화면: PRG+flash·http_client_factory 주입·외부 Origin POST 403(자체 결정)) 구체화, PLAN 현재 상태·web 모듈 책임 갱신, 웹 UI 간극 남아 DONE 미생성, 다음 작업 T18 선정
+- 2026-11-03T10:00:00Z generator: T18 완료(피드 관리 화면·내비 정리, 전체 276건 통과), 스크린샷은 Playwright 권한 거부로 T17 BLOCKED(2회째)
+- 2026-11-02T22:22:43Z evaluator: T18 PASS 12/15(사양3·경계3·테스트2·운영2·화면2), test_web 15건·전체 276건 통과, 실서버 403/405/303 확인, 홈 빈 상태 문구·삭제 확인 부재·raw sqlite3.Error·등록 대기 시간을 메모로 넘김, T17 스크린샷 BLOCKED(2회째) 유지
+- 2026-11-03T10:30:00+09:00 planner: T18 REVIEW(PASS 12/15) 반영. T18 결과 기록, 메모 2·3·4·6을 T18a(홈 /feeds 링크·삭제 confirm·웹 sqlite3.Error errorhandler·등록 flash 피드명·테스트 보강, 자체 결정)로 신설, 메모 5를 T19 메모로 이관, T17 스크린샷은 BLOCKED 2회째라 HALT 없이 T18a 세션에서 3회째 재시도, 웹 UI 간극 남아 DONE 미생성, 다음 작업 T18a 선정
+- 2026-11-02T22:25:12Z generator: T18a 완료(282건 통과), T17 스크린샷 BLOCKED(3회째)
+- 2026-11-02T22:27:09Z evaluator: T18a PASS 13/15(사양3·경계3·테스트2·운영3·화면2), test_web 21건·전체 282건 통과, 실서버 홈 /feeds 링크·confirm 이스케이프 직접 확인, flash 제목 테스트 범위·이스케이프 회귀 테스트를 메모로 넘김, T17 스크린샷 BLOCKED(3회째)로 사람 권한 허용(HALT) 필요
+- 2026-11-03T11:00:00+09:00 planner: T18a REVIEW(PASS 13/15) 반영. T18a 결과 기록, T17 BLOCKED(3회째)로 docs/HALT 생성(Playwright browser_navigate·emulate_media·take_screenshot 권한 허용 요청), 메모 2~4를 T18b(flash 범위 단언·confirm 이스케이프 회귀 테스트·DB 오류 핸들러 통합·/feeds GET DB 오류 테스트)로 신설, 웹 UI 간극 남아 DONE 미생성, HALT 해제 뒤 다음 작업 T18b·T17 스크린샷 재시도
+- 2026-11-03T11:30:00+09:00 planner: docs/HALT 미해제 확인(T17 BLOCKED(3회째) 그대로, docs/screens 없음, REVIEW는 T18a PASS 13/15로 변화 없음). 사람의 Playwright 권한 허용 대기 중이라 PRD·PLAN·TASKS 변경 없음, DONE 미생성, HALT 유지. 해제 뒤 다음 작업은 T18b·T17 스크린샷 재시도
+- 2026-11-03T12:00:00+09:00 planner: docs/HALT 미해제 재확인(.claude/settings.local.json에 Playwright 권한 허용 없음, docs/screens 없음, REVIEW는 T18a PASS 13/15 그대로). PRD·PLAN·TASKS 변경 없음, DONE 미생성, HALT 유지. 해제 뒤 다음 작업은 T18b·T17 스크린샷 재시도

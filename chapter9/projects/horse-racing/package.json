@@ -1,0 +1,26 @@
+{
+  "name": "derby-day",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "test": "vitest run --pool=threads --maxWorkers=1 --minWorkers=1", "test:browser": "node artifacts/browser-check.mjs", "browser:setup": "playwright install chromium"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "jsdom": "^25.0.1",
+    "playwright": "^1.64.1",
+    "vitest": "^2.1.9"
+  }
+}
+
+

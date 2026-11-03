@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}오류 · rss-wiki{% endblock %}
+{% block content %}
+<section class="empty error">
+  <h1>문제가 발생했습니다</h1>
+  <p class="error-message">{{ message }}</p>
+  <p class="hint">잠시 후 다시 시도하거나 데이터 디렉터리와 DB 상태를 확인하세요.</p>
+</section>
+{% endblock %}

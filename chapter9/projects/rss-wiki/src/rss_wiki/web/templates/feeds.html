@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}피드 · rss-wiki{% endblock %}
+{% block content %}
+<h1>피드</h1>
+<form class="feed-form" method="post" action="/feeds">
+  <label>피드 URL
+    <input type="url" name="url" placeholder="https://example.com/feed.xml" required>
+  </label>
+  <label>이름 (선택)
+    <input type="text" name="name" placeholder="비워 두면 피드 제목 사용">
+  </label>
+  <button type="submit">등록</button>
+</form>
+{% if not feeds %}
+<section class="empty">
+  <h2>등록된 피드가 없습니다</h2>
+  <p>위 폼에 RSS/Atom 피드 URL을 입력해 등록하세요.</p>
+</section>
+{% else %}
+<div class="table-wrap">
+<table class="feed-table">
+  <thead><tr><th>id</th><th>이름</th><th>URL</th><th>마지막 수집</th><th>상태</th><th></th></tr></thead>
+  <tbody>
+  {% for f in feeds %}
+  <tr>
+    <td>{{ f.id }}</td>
+    <td>{{ f.name or "-" }}</td>
+    <td class="url">{{ f.url }}</td>
+    <td>{{ f.last_fetched_at or "-" }}</td>
+    <td>{{ f.last_status or "-" }}</td>
+    <td>
+      <form method="post" action="/feeds/{{ f.id }}/delete" onsubmit="return confirm({{ ('피드 「' ~ (f.name or f.url) ~ '」을(를) 삭제할까요? 기존 글은 유지됩니다.')|tojson|forceescape }})">
+        <button type="submit" class="danger">삭제</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}
