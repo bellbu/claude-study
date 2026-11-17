@@ -1,0 +1,11 @@
+{"time": "2026-11-13T06:04:57.626942+00:00", "event": "reset", "discovered": 4}
+{"time": "2026-11-13T06:04:57.900124+00:00", "event": "claimed", "attempt": 1, "worker": "fixture", "task_id": "CALC-001"}
+{"time": "2026-11-13T06:05:01.628470+00:00", "event": "passed", "reason": "", "task_id": "CALC-001"}
+{"time": "2026-11-13T06:05:01.632460+00:00", "event": "claimed", "attempt": 1, "worker": "fixture", "task_id": "CALC-002"}
+{"time": "2026-11-13T06:05:02.737523+00:00", "event": "retry", "reason": ".F                                                                       [100%]\n================================== FAILURES ===================================\n___________________________ test_calc_002_shipping ____________________________\n\n    def test_calc_002_shipping():\n        assert shipping_fee(49_999) == 3_000\n>       assert shipping_fee(50_000) == 0  # �� ��谪 ����\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       assert 3000 == 0\nE        +  where 3000 = shipping_fee(50000)\n\nchecks\\test_acceptance.py:20: AssertionError\n=========================== short test summary info ===========================\nFAILED checks/test_acceptance.py::test_calc_002_shipping - assert 3000 == 0\n1 failed, 1 passed in 0.10s", "task_id": "CALC-002"}
+{"time": "2026-11-13T06:05:02.740688+00:00", "event": "claimed", "attempt": 2, "worker": "fixture", "task_id": "CALC-002"}
+{"time": "2026-11-13T06:05:04.176556+00:00", "event": "passed", "reason": "", "task_id": "CALC-002"}
+{"time": "2026-11-13T06:05:04.178382+00:00", "event": "claimed", "attempt": 1, "worker": "fixture", "task_id": "CALC-003"}
+{"time": "2026-11-13T06:05:04.180342+00:00", "event": "needs_human", "reason": "운영팀이 승인한 USD 기준 환율이 없습니다.", "task_id": "CALC-003"}
+{"time": "2026-11-13T06:05:04.195873+00:00", "event": "claimed", "attempt": 1, "worker": "fixture", "task_id": "CALC-004"}
+{"time": "2026-11-13T06:05:10.326359+00:00", "event": "passed", "reason": "", "task_id": "CALC-004"}

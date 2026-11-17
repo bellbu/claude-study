@@ -1,0 +1,15 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+___________________________ test_calc_002_shipping ____________________________
+
+    def test_calc_002_shipping():
+        assert shipping_fee(49_999) == 3_000
+>       assert shipping_fee(50_000) == 0  # �� ��谪 ����
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 3000 == 0
+E        +  where 3000 = shipping_fee(50000)
+
+checks\test_acceptance.py:20: AssertionError
+=========================== short test summary info ===========================
+FAILED checks/test_acceptance.py::test_calc_002_shipping - assert 3000 == 0
+1 failed, 1 passed in 0.10s

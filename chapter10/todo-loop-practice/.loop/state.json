@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "CALC-001": {
+      "status": "passed",
+      "attempts": 1,
+      "reason": ""
+    },
+    "CALC-002": {
+      "status": "passed",
+      "attempts": 2,
+      "reason": ""
+    },
+    "CALC-003": {
+      "status": "needs_human",
+      "attempts": 1,
+      "reason": "운영팀이 승인한 USD 기준 환율이 없습니다."
+    },
+    "CALC-004": {
+      "status": "passed",
+      "attempts": 1,
+      "reason": ""
+    }
+  },
+  "calls": 5,
+  "active": null
+}
